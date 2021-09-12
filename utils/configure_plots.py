@@ -1,4 +1,13 @@
-def set_website_plot_props(ax):
+from matplotlib import rcParams
+from matplotlib import ticker
+import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
+from matplotlib.patches import Polygon
+import numpy as np
+
+
+def set_website_plot_props(ax, fig, xmin, xmax, ymin, ymax, xlabel, ylabel):
 
     # ---------------------------------
     # Plot properties for website plots
@@ -40,8 +49,8 @@ def set_website_plot_props(ax):
     ax.yaxis.get_major_formatter()._usetex = True
 
     ax.tick_params(which='minor', direction='in', length=4)
-    ax.xaxis.set_minor_locator(AutoMinorLocator(5))
-    ax.yaxis.set_minor_locator(AutoMinorLocator(5))
+    ax.xaxis.set_minor_locator(ticker.AutoMinorLocator(5))
+    ax.yaxis.set_minor_locator(ticker.AutoMinorLocator(5))
 
     bold_xlabel = r'\textbf{{{}}}'.format(xlabel)
     bold_ylabel = r'\textbf{{{}}}'.format(ylabel)
@@ -83,7 +92,7 @@ def add_4_plot_titles(ax, title1, title2, title3, title4):
                 horizontalalignment='left', verticalalignment='top')
 
 
-def add_sio_logo(logo_file):
+def add_sio_logo(logo_file, fig):
 
     # Add SIO logo to plot
 
