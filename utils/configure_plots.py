@@ -23,6 +23,7 @@ def set_website_plot_props(ax, fig, xmin, xmax, ymin, ymax, xlabel, ylabel):
         "font.family": "sans-serif",
         "font.weight":  "bold",
         "font.sans-serif": ["Helvetica"]})
+
     rcParams['text.latex.preamble'] = r'\usepackage{sfmath} \boldmath'
 
     ax.set_xlim(xmin, xmax)

@@ -28,7 +28,7 @@ def get_todays_date():
     return todays_date_moyr, todays_date_modyyr, today_decimal, todays_year
 
 
-def get_archive_date(data_file):
+def get_file_archive_date(data_file):
 
     # Get data file archive date
 
@@ -51,11 +51,32 @@ def get_archive_date(data_file):
     return archive_date
 
 
-def t2dt(atime):
+def datetime_to_float(adatetime):
     """
-    Convert atime (a float) to DT.datetime
-    This is the inverse of dt2t.
-    assert dt2t(t2dt(atime)) == atime
+    Convert adatetime into a float. The integer part of the
+    float should represent the year.
+    Order should be preserved. If adate < bdate, then datetime_to_float(adate) < datetime_to_float(bdate)
+    Time distances should be preserved:
+    If bdate - adate =  ddate-cdate then
+    datetime_to_float(bdate) - datetime_to_float(adate) = datetime_to_float(ddate) - datetime_to_float(cdate)
+
+    # Need: import datetime as DT
+
+    https://stackoverflow.com/questions/19305991/convert-fractional-years-to-a-real-date-in-python
+    """
+
+    year = adatetime.year
+    begin_of_year = DT.datetime(year, 1, 1)
+    end_of_year = DT.datetime(year + 1, 1, 1)
+    return year + ((adatetime - begin_of_year).total_seconds() / ((end_of_year - begin_of_year).total_seconds()))
+
+
+def float_to_datetime(atime):
+    """
+    Convert atime (a float) to a datetime
+    assert datetime_to_float(float_to_datetime(atime)) == atime
+
+    # Need: import datetime as DT
 
     https://stackoverflow.com/questions/19305991/convert-fractional-years-to-a-real-date-in-python
     """
@@ -66,17 +87,3 @@ def t2dt(atime):
     eoy = DT.datetime(year + 1, 1, 1)
     seconds = remainder * (eoy - boy).total_seconds()
     return boy + DT.timedelta(seconds=seconds)
-
-
-def dt2t(adatetime):
-    """
-    Convert adatetime into a float. The integer part of the float should
-    represent the year.
-    Order should be preserved. If adate<bdate, then d2t(adate)<d2t(bdate)
-    time distances should be preserved: If bdate-adate=ddate-cdate then
-    dt2t(bdate)-dt2t(adate) = dt2t(ddate)-dt2t(cdate)
-    """
-    year = adatetime.year
-    boy = DT.datetime(year, 1, 1)
-    eoy = DT.datetime(year + 1, 1, 1)
-    return year + ((adatetime - boy).total_seconds() / ((eoy - boy).total_seconds()))
